@@ -1,0 +1,12 @@
+#! /bin/sh
+# modificato da Carlo Abbate il 14/02/2021
+
+SHORTFMT="${SHORTFMT:-+%d/%m/%Y}"
+LABEL="${LABEL:-}"
+shortblockdate=$(date "$SHORTFMT")
+
+echo "$LABEL$shortblockdate"
+case "$BLOCK_BUTTON" in
+    1|2|3)
+	    swaymsg exec 'zenity --calendar' ;;
+    esac

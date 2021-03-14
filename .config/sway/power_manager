@@ -1,0 +1,37 @@
+#!/bin/bash
+# idle_inhibit : Script per impedire lo stand-by del computer su sway
+# Istruzioni : click sx per permettere lo stand-by, click dx per impedirlo
+# Nei 2 casi, se un'applicazione è in fullscreen, lo stand-by é disattivato
+# Script by Carlo Abbate
+# Date : 21/02/2021
+
+
+testo="<span color='green'><span font='FontAwesome'></span></span>"
+if [[ -e temp.txt && $(cat temp.txt) == "normal" ]]; then
+		testo="<span color='green'><span font='FontAwesome'></span></span>"
+	else 		
+		testo="<span color='red'><span font='FontAwesome'></span></span>"
+fi
+
+case $BLOCK_BUTTON in
+  1) 
+	  # Normal state. 
+	  # First desactivate all inhibit_dle present
+	  swaymsg inhibit_idle none
+          # Write normal state to temp file
+	  echo "normal" > temp.txt
+	  swaymsg inhibit_idle fullscreen
+	  echo "<span color='green'><span font='FontAwesome'></span></span>"
+	  notify-send -t 5000 "Power-manager : normal state" ;;
+  3)
+	  # Always on state.
+	  # First desactivate all inhibit_dle present
+	  swaymsg inhibit_idle none
+          # Write always-on state to temp file
+	  echo "always-on" > temp.txt
+	  swaymsg inhibit_idle visible 
+	  echo "<span color='red'><span font='FontAwesome'></span></span>"
+	  notify-send -t 5000 "Power-manager : Always-on state" ;;
+
+esac
+echo "$testo"

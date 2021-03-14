@@ -1,0 +1,13 @@
+#!/bin/sh
+# Script by Carlo Abbate
+# Date : 02/09/2020
+
+sleep 5
+Weather=$(curl -s wttr.in/dracy-le-fort?format=%c+%t)
+Weatherv2=$(curl -s v2.wttr.in/dracy-le-fort)
+echo $Weather
+
+case $BLOCK_BUTTON in
+  1|3) 
+	  feh http://v2.wttr.in/dracy-le-fort.png
+esac

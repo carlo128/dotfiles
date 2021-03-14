@@ -1,0 +1,17 @@
+#!/bin/sh
+# Script by Carlo Abbate
+# Date : 16/02/2021
+
+STATUS=$(bluetooth | grep -wo 'on')
+
+if [[ "${STATUS}" = "on" ]]; then
+  echo "<span color='green'><span font='FontAwesome'></span></span>"
+else   echo "<span color='red'><span font='FontAwesome'></span></span>"
+fi
+
+case $BLOCK_BUTTON in
+  1) 
+	  swaymsg exec blueman-manager ;;
+  3)
+          bluetooth toggle ;;
+esac
