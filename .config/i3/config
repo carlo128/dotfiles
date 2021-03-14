@@ -107,6 +107,7 @@ bindsym $mod+r mode "resize"
 for_window [class="feh"] floating enable 
 for_window [class="Gnome-calculator"] floating enable 
 for_window [class="Galculator"] floating enable 
+for_window [class="virt-manager"] floating enable 
 
 # ----------------- Scratchpad --------------------------
 
@@ -115,15 +116,6 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show 
 
-# ----------------- i3-gaps specific --------------------------
-
-# i3-gaps
-# You can also use any non-zero value if you'd like to have a border
-#for_window [class=".*"] border pixel 0
-#gaps inner 5
-# gaps outer 5
-# gaps horizontal current plus 40
-# gaps outer current toggle 60
 
 
 # -----------------Workspace management--------------------------
@@ -190,6 +182,7 @@ bar {
 	position top
 	colors {
    	 	separator #268bd2
+    	#	background #141414
     		background #2b2b2b
     	#	statusline #839496
     	#	focused_workspace #fdf6e3 #6c71c4 #fdf6e3
@@ -239,8 +232,6 @@ bindsym $mod+t exec --no-startup-id thunar
 
 # ----------------- Esecuzione automatica  ------------------------
 
-#exec xrandr --output LVDS --brightness 0.7
-# exec gnome-keyring-daemon start --components=pkcss11
 
 # per l'autentificazione gksudo di alcuni programmi (timeshift, gparted, etc)
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
@@ -268,6 +259,10 @@ exec_always auto_xfce_theme_day_night.sh
 # exec autokey-gtk
 exec --no-startup-id nextcloud
 # gestione colore schermo secondo ora del giorno
-exec --no-startup-id redshift-gtk
+exec --no-startup-id redshift-gtk -l 46.813039:4.746963
 # gestore aggiornamenti
 exec --no-startup-id pamac-tray
+# i3 alternating layouts : per alternare lo split verticale e orizzontale
+exec_always --no-startup-id alternating_layouts.py
+# per gestire la carica batteria et aumentare l'autonomia
+exec --no-startup-id tlp start
