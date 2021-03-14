@@ -73,7 +73,9 @@ syntax on
 if v:progname =~? "gvim"
     colorscheme torte
 endif
-colorscheme torte
+" torte = sfondo nero, ardesia = sfondo grigio
+"colorscheme torte
+"colorscheme ardesia
 " Disattiva la compatibilità con vi
 set nocompatible
 
@@ -86,3 +88,8 @@ set ttymouse=sgr
 " set spell
 " lingua del correttore ortografico
 set spelllang=fr
+
+" Wayland Clipboard Support
+xnoremap "+y y:call system("wl-copy", @")<cr>  
+nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p  
+nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>
