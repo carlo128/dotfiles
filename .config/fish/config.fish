@@ -1,3 +1,7 @@
+# PATH variable append
+set -a PATH ~/.local/bin/
+set -a PATH /usr/sbin/
+
 # Fish aliases made by Carlo
 export EDITOR=/usr/bin/vim
 alias cls=clear

@@ -9,4 +9,5 @@ echo "$LABEL$shortblockdate"
 case "$BLOCK_BUTTON" in
     1|2|3)
 	    swaymsg exec 'zenity --calendar' ;;
+	   # swaymsg exec gnome-calendar ;;
     esac

@@ -41,7 +41,16 @@ elif [[ -z $INTERFACE ]]; then
 fi
 
 # Exit if there is no default route
-[[ -z "$INTERFACE" ]] && exit
+#[[ -z "$INTERFACE" ]] && exit
+if [[ -z "$INTERFACE" ]]; then
+    echo "<span color='red'> Offline</span>"
+# Added by Carlo
+case $BLOCK_BUTTON in
+  1|3) 
+	 systemctl restart systemd-networkd
+esac
+    exit 0
+fi
 
 # Issue #36 compliant.
 if ! [ -e "/sys/class/net/${INTERFACE}/operstate" ] || \
@@ -93,7 +102,7 @@ tx_rate=$(( $tx_diff / $time_diff ))
 # 1024^2 = 1048576, then display MiB/s instead
 
 # incoming
-echo -n "$INLABEL"
+echo -n "<span color='#04f909'>$INLABEL"
 rx_kib=$(( $rx_rate >> 10 ))
 if hash bc 2>/dev/null && [[ "$rx_rate" -gt 1048576 ]]; then
   printf '%sM' "`echo "scale=1; $rx_kib / 1024" | bc`"
@@ -109,13 +118,11 @@ tx_kib=$(( $tx_rate >> 10 ))
 if hash bc 2>/dev/null && [[ "$tx_rate" -gt 1048576 ]]; then
   printf '%sM\n' "`echo "scale=1; $tx_kib / 1024" | bc`"
 else
-  echo "${tx_kib}K"
+  echo "${tx_kib}K</span>"
 fi
 
 # Added by Carlo
 case $BLOCK_BUTTON in
   1|3) 
 	  termite -e nmtui
-	  #swaymsg floating enable
-	  #swaymsg floating disable
 esac

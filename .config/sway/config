@@ -23,16 +23,16 @@ set $bgpath "/home/carlo/Immagini/sfondi/ghibli/"
 set $bg $bgpath$(ls $bgpath | sort -R | head -1)
 
 # variabili per gestione workspace
-set $workspace1 "1.uno"
-set $workspace2 "2.due"
-set $workspace3 "3.tre"
-set $workspace4 "4.quattro"
-set $workspace5 "5.cinque"
-set $workspace6 "6.sei"
-set $workspace7 "7.sette"
-set $workspace8 "8.otto"
-set $workspace9 "9.nove"
-set $workspace10 "10.dieci"
+set $workspace1 "I"
+set $workspace2 "II"
+set $workspace3 "III"
+set $workspace4 "IV"
+set $workspace5 "V"
+set $workspace6 "VI"
+set $workspace7 "VII"
+set $workspace8 "VIII"
+set $workspace9 "IX"
+set $workspace10 "X"
 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -99,12 +99,12 @@ bindswitch --reload --locked lid:off output eDP-1 enable
 exec swayidle -w \
           timeout 90 'swaymsg exec brightnessctl s 50%' resume 'swaymsg exec brightnessctl s 90%' \
           timeout 120 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaymsg "output * dpms on" && swaylock --indicator -c 23479b'
+          before-sleep 'swaymsg "output * dpms on" && swaylock --indicator --screenshot --effect-blur 10x10 -l --effect-vignette 0.2:0.8'
 
 # timeout 180 'swaylock --indicator --screenshot --effect-blur 10x10 -l --effect-vignette 0.2:0.8 --fade-in 1' \
 # timeout 300 'systemctl suspend-then-hibernate'
 # timeout 180 'swaylock --indicator --screenshot --effect-blur 10x10 -l --effect-vignette 0.2:0.8 --fade-in 1' \
-# before-sleep 'swaylock --indicator --screenshot --effect-blur 10x10 -l --effect-vignette 0.2:0.8'
+# before-sleep 'swaymsg "output * dpms on" && swaylock --indicator -c 23479b'
 
 # Inhibit sleep when an application is fullscreen. Possible commands : focus|fullscreen|open|none|visible
 for_window [class="."] inhibit_idle fullscreen
@@ -127,15 +127,18 @@ for_window [app_id="org.gnome.DejaDup"] inhibit_idle visible
     bindsym $mod+d exec $menu
     # File Manager
     bindsym $mod+t exec thunar
+    bindsym $mod+n exec nautilus
     # Browser
     bindsym $mod+w exec firefox
     # Screenshot (screen)
     bindsym $mod+Alt+3 exec grimshot save output ~/$(date -Is).png
     # Screenshot (Area)
-    bindsym $mod+Alt+4 exec grimshot save area ~/$(date -Is).png
+    bindsym $mod+Shift+S exec grimshot save area ~/$(date -Is).png
 
     # Power button to shutdown/reboot menu
     bindsym XF86_PowerOff exec ~/.config/i3/shutdown_menu -p zenity
+
+    bindsym $mod+XF86_PowerOff  swaymsg "output * dpms on"    
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -247,7 +250,7 @@ bindsym XF86AudioPrev exec playerctl previous
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
 #    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+    # bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen
@@ -297,6 +300,15 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+# Gaps
+
+# gaps inner|outer|horizontal|vertical|top|right|bottom|left <amount>
+gaps inner 2
+# If smart_gaps are on gaps will only be enabled if a workspace has more than one child.
+smart_gaps on
+# If smart_borders are on, borders will only be enabled if the workspace has more than one visible child.
+smart_borders on
+
 #
 # -------- Windows specific settings ---------------------------
 # per trovare gli app_id : swaymsg -t get_tree | grep app_id
@@ -309,6 +321,8 @@ for_window [app_id="gnome-calculator"] floating enable
 for_window [title="xeyes"] floating enable
 for_window [app_id="wdisplays"] floating enable
 for_window [app_id="org.gnome.DejaDup"] floating enable
+for_window [app_id="cheese"] floating enable
+for_window [app_id="gnome-calendar"] floating enable
 
 #
 # ------- Status Bar -------------------------------------------
@@ -323,7 +337,8 @@ bar {
 	colors {
    	 	separator #268bd2
     		background #2b2b2b
-    }
+         }
+    # gaps 2 
 }
 
 
